@@ -1,18 +1,22 @@
 <template>
 	<view class="content">
 		<view class="title">LPL2020年春季赛积分表</view>
-		<view class="genaral-area">
-			<view class="flex-box tc thead">
+		<view>
+			<view class="flex-box">
 				<view class="item-2">排名</view>
 				<view class="item-2">俱乐部</view>
-				<view class="item-2">胜负</view>
+				<view class="item-2">场次</view>
+				<view class="item-2">胜场</view>
+				<view class="item-2">负场</view>
 				<view class="item-2">积分</view>
 			</view>
-			<view class="flex-box table tc" v-for="(item,index) in lists" :key="item.id">
-				<view class="item-2">{{ item.id }}</view>
+			<view class="flex-box" v-for="item in lists" :key="item.id">
+				<view class="item-2">{{ item.rank }}</view>
 				<view class="item-2">{{ item.name }}</view>
-				<view class="item-2">{{ item.shengfu }}</view>
-				<view class="item-2">{{ item.jifen }}</view>
+				<view class="item-2">{{ item.session }}</view>
+				<view class="item-2">{{ item.victory }}</view>
+				<view class="item-2">{{ item.loss }}</view>
+				<view class="item-2">{{ item.scroe }}</view>
 			</view>
 		</view>
 	</view>
@@ -27,10 +31,15 @@
 			}
 		},
 		onLoad() {
-			http.get('/rank').then(rs=>{
-				console.log(rs)
+			http.get('/match').then(rs=>{
 				this.lists = rs.data
 			})
+			uni.startPullDownRefresh();
+		},
+		onPullDownRefresh() {
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 500);
 		},
 		methods: {
 
@@ -38,8 +47,7 @@
 	}
 </script>
 
-<style lang="scss">
-	$color:#e0e0e0;
+<style scoped>
 	.content {
 		display: flex;
 		flex: 1;
@@ -49,57 +57,24 @@
 	
 	.flex-box {
 		display: flex;
-		flex-wrap: wrap;
 	}
 	
 	
 	.flex-box>.item-2 {
-		flex: 0 0 25%;
+		flex: 0 0 16.5%;
 	}
 	
 	.title{
-		margin: 20upx 0;
+		margin: 20rpx 0;
 		color: red;
+		text-align: center;
 	}
 	
-	//普通表格
-	.genaral-area {
-		.item-2 {
-			font-size: 26upx;
-			border: 1upx solid $color;
-			border-width: 1upx 1upx 0 0;
-			padding: 16upx 0;
-			box-sizing: border-box;
-			text-align: center;
-	
-			&:first-child {
-				border-left-width: 1upx;
-			}
-	
-			&:last-child {
-				border-right-width: 1upx;
-			}
-		}
-	
-		.thead {
-			.item-2 {
-				font-weight: bold;
-	
-				box-sizing: border-box;
-			}
-		}
-	
-		.table {
-			&:last-child {
-				border-bottom: 1upx solid $color;
-			}
-	
-			.item-2 {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				box-sizing: border-box;
-			}
-		}
+	.item-2 {
+		font-size: 26rpx;
+		border: 1rpx solid #e0e0e0;
+		border-width: 1rpx 1rpx 0 0;
+		padding: 16rpx 0;
+		text-align: center;
 	}
 </style>
