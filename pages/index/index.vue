@@ -12,7 +12,10 @@
 			</view>
 			<view class="flex-box" v-for="item in lists" :key="item.id">
 				<view class="item-2">{{ item.rank }}</view>
-				<view class="item-2">{{ item.name }}</view>
+				<view class="item-2 logo">
+					<image :src="item.src" class="imgSrc"></image>
+					<text style="flex: 1;">{{ item.name }}</text>
+				</view>
 				<view class="item-2">{{ item.session }}</view>
 				<view class="item-2">{{ item.victory }}</view>
 				<view class="item-2">{{ item.loss }}</view>
@@ -76,5 +79,17 @@
 		border-width: 1rpx 1rpx 0 0;
 		padding: 16rpx 0;
 		text-align: center;
+	}
+	
+	.imgSrc{
+		width: 20rpx;
+		height: 26rpx;
+		flex: 1;
+	}
+	
+	.logo{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 	}
 </style>
